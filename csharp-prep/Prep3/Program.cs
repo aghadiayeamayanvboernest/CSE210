@@ -5,8 +5,10 @@ class Program
     static void Main(string[] args)
     
     {
+        // Initialize playAgain Variable to "yes to start the game 
         string playAgain = "yes";
 
+        //this line of code is the outer loop to repeat the game as long as the user want to play again
         while (playAgain.ToLower() == "yes")
         {
             Console.WriteLine("Guess the magic number! It is between 1 and 204.");
