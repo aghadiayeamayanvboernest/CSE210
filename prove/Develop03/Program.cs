@@ -4,14 +4,14 @@ using System.IO;
 
 class Program
 {
-    //"In my program, I added a creative touch by enabling scripture loading from a file. This feature allows users to seamlessly engage with different texts, enhancing flexibility without requiring any code changes. It's a user-friendly design that keeps data separate from operations, making updates and maintenance straightforward.
+    // In my program, I added a creative touch by enabling scripture loading from a file. This feature allows users to seamlessly engage with different texts, enhancing flexibility without requiring any code changes. It's a user-friendly design that keeps data separate from operations, making updates and maintenance straightforward.
     static void Main(string[] args)
     {
         // Load scriptures from file
         string filePath = "Scriptures.txt";
         List<Scripture> scriptures = LoadScripturesFromFile(filePath);
 
-        // this line of code Ensure there are scriptures loaded
+        // Ensure there are scriptures loaded
         if (scriptures.Count == 0)
         {
             Console.WriteLine("No scriptures loaded from the file.");
@@ -71,7 +71,24 @@ class Program
                         string book = referenceParts[0];
                         if (int.TryParse(referenceParts[1], out int chapter) &&
                             int.TryParse(referenceParts[2], out int verseStart) &&
-                            int.TryParse(referenceParts[3], out int verseEnd))
+                            int.TryParse(referenceParts[3], out int endverse))
+                        {
+                            var reference = new Reference(book, chapter, verseStart, endverse);
+                            var scripture = new Scripture(text, reference);
+                            scriptures.Add(scripture);
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Error parsing reference parts: {string.Join(" ", referenceParts)}");
+                        }
+                    }
+                    else if (referenceParts.Length == 3 && referenceParts[2].Contains(':'))
+                    {
+                        // Handle the case where the verse part uses colon
+                        string book = referenceParts[0];
+                        if (int.TryParse(referenceParts[1], out int chapter) &&
+                            int.TryParse(referenceParts[2].Split(':')[0], out int verseStart) &&
+                            int.TryParse(referenceParts[2].Split(':')[1], out int verseEnd))
                         {
                             var reference = new Reference(book, chapter, verseStart, verseEnd);
                             var scripture = new Scripture(text, reference);
@@ -101,4 +118,3 @@ class Program
         return scriptures;
     }
 }
-

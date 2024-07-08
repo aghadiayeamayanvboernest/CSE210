@@ -6,13 +6,8 @@ public class Scripture
     public Scripture(string text, Reference reference)
     {
         _scriptureReference = reference;
-        _scriptureWords = CreateWordList(text);
-    }
-
-    private List<Word> CreateWordList(string text)
-    {
-        return text.Split(' ').Select(word => new Word(word)).ToList();    
-    }   
+        _scriptureWords = text.Split(' ').Select(word => new Word(word)).ToList();
+    } 
 
     public string GetDisplayText()
     {
